@@ -1,0 +1,104 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.win{
+    display: none;
+}
+h1{
+    text-align: center;
+}
+.espace{
+    width: 100%;
+    height: 100px;
+}
+.div{
+    width: 100%;
+    height: 400px;
+    /* display: none; */
+}
+.haut{
+    width: 80%;
+    height: 10px;
+    transform: translate(7%);
+    background-color: red;
+}
+.d{
+    width: 100%;
+    /* overflow: hidden; */
+    height: 400px;
+}
+.droite,.droite2,.droite1{
+    width: 1%;
+    height: 400px;
+    transform: translate(505%);
+    background-color: red;
+    z-index: -10;
+}
+.droite1{
+    transform: translate(4500%,-400px);
+}
+.droite2{
+    transform: translate(8500%,-800px);
+
+}
+.bas{
+    width: 80%;
+    height: 10px;
+    background-color: red;
+    transform: translate(7%);
+}
+.milieu{
+    width: 80%;
+    height: 10px;
+    background-color: red;
+    transform: translate(7%,-1011px);
+}
+.car{
+    width: 100%;
+    transform: translate(0,-435px);
+    overflow: hidden;
+    height: 55px;
+    overflow: hidden;
+}
+.car1{
+    width: 100%;
+    transform: translate(0,-300px);
+    height: 55px;
+    overflow: hidden;
+}
+.car2{
+    width: 100%;
+    transform: translate(0,-140px);
+    height: 60px;
+    overflow: hidden;
+}
+.carre,.carre1,.carre2{
+    width: 10%;
+    height: 45px;
+    background-color: black;
+    transform: translate(20%);
+    border-radius: 15px;
+    border: 3px solid black;
+    background-color: white;
+    
+}
+.carre1{
+    transform: translate(370%,-50px);
+}
+.carre2{
+    transform: translate(740%,-102px);
+}
+[src]{
+    width: 70%;
+    border-radius: 25px;
+    transform: translate(0);
+    animation-name: win;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    box-shadow: 0px 0px 10px black;
+}
+@keyframes win {
+    50%{transform: translate(0,-10px);}
+    /* 100%{transform: translate(0,10px);} */
+}
