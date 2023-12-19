@@ -1,0 +1,131 @@
+*{margin: 0;padding: 0;box-sizing: border-box;}
+
+html{
+    --w: 25px;
+    --h: 5px;
+}
+.p-1{
+    padding: 0 10px;
+}
+
+.dn{display: none;}
+body{
+    background-color: #25262a;
+    color: white;
+}
+
+.esp{height: 50px;}
+.mt-0-5{margin-top: 50px;}
+.mb-0-5{margin-bottom: 50px;}
+.mt-1{margin-top: 100px;}
+.mt-1-5{margin-top: 150px;}
+
+/* 
+    style a de la barre et croix
+*/
+.barre{
+    width:  var(--w);
+    background-color: #fdc234;
+    height: var(--h);
+    position: absolute;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+.barre::before{
+    width: var(--w);
+    content: '';
+    position: absolute;
+    background-color: #fdc234;
+    height: var(--h);
+    top: -7px;
+}
+.barre::after{
+    width: var(--w);
+    content: '';
+    position: absolute;
+    background-color: #fdc234;
+    height: var(--h);
+    top: 7px;
+}
+
+.barre:hover{
+    width: 30px;
+}
+
+.croix{
+    height: 22px;
+    width: 3px;
+    background-color: black;
+    position: relative;
+    transform: rotate(50deg);
+    border-radius: 18px;
+}
+.croix::after{
+    position: absolute;
+    content: '';
+    height: inherit;
+    width: inherit;
+    background-color: inherit;
+    border-radius: inherit;
+    transform: rotate(80deg);
+
+}
+
+
+.icon::after{
+    position: absolute;
+    content: '';
+    height: 17px;
+    width: 17px;
+}
+
+/*
+    modification de text
+*/
+span{
+    padding: 0px 10px;
+    font-style: normal;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.nosp{
+    padding: 0;
+    color: #000;
+    font-weight: normal;
+    font-family: serif;
+    text-transform: lowercase;
+    cursor: pointer;
+    /* text-decoration: underline;
+    color: blue; */
+    color: inherit;
+}
+.text{
+    text-decoration: none;
+    padding: 0.5em;
+    font-weight: bold;
+    color: inherit;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+.titre{
+    text-transform: uppercase;
+}
+.opacity{
+    opacity: 0.5;
+}
+
+/*
+    style de couleur
+*/
+.alert{color: #ffc107;text-align: center;}
+.alerts{background-color: #ffc107;}
+
+.cl-r{background-color: #dc3545;}
+.cl-t{background-color: #20c997;}
+.cl-v{background-color: #198754;}
+.cl-b{background-color: #0d6efd;}
+.lower{text-transform: lowercase;}

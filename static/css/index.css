@@ -1,0 +1,97 @@
+html{
+    --cl-red:#dc3545;
+    --cl-bleu:#0d6efd;
+    --cl-green:#198754;
+    --cl-blanc:#fff;
+    --cl-code:#161b21;
+    --cl-yellow:#ffc107;
+}
+body{
+    background-color: var(--cl-code);
+}
+header{
+    display: flex;
+    background-color: #000;
+    flex-wrap: wrap;
+    color: var(--cl-blanc);
+    justify-content: space-around;
+    padding: 10px;
+}
+header p{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+section{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    margin: 10px;
+}
+.game-art{
+    width: 30%;
+    border: 1px solid;
+    margin: 10px;
+    overflow: hidden;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    & .img{
+        width: 100%;
+        height: 200px;
+        background-size: cover;
+        padding-bottom: 150%;
+        background-position: center;
+    }
+}
+.game-art .titre{
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: -50px;
+    background-color: var(--cl-code);
+    color: var(--cl-blanc);
+    padding: 0.5em;
+    animation: titre-an 1.5s 1 forwards;
+}
+section:hover {
+    & .game-art:not(:hover){
+        filter: blur(3px) contrast(1) saturate(1);
+    }
+}
+.game-art:first-child .img{
+    background-image: url(static/img/Annotation\ 2023-12-19\ 150914.png);
+}
+.game-art:nth-child(2) .img{
+    background-image: url(static/img/Annotation\ 2023-12-19\ 151113.png);
+}
+.game-art:nth-child(3) .img{
+    background-image: url(static/img/Annotation\ 2023-12-19\ 151212.png);
+}
+@keyframes titre-an {
+    100%{bottom: 0;}
+}
+@media screen and (min-width:767px) {
+    .game-art{width: 45%;}
+}
+@media screen and (max-width:767px) {
+    .game-art{
+        width: 70%;
+        & .img{
+            height: 250px;
+        }
+    }
+}
+@media screen and (min-width:1024px) {
+    .game-art{
+        width: 20%;
+    }
+}

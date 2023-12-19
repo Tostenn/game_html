@@ -1,0 +1,225 @@
+
+header{
+    background-color: #fff;
+    color: #25262a;
+    /* position: absolute;
+    height: 250px;
+    border-radius: 50%;
+    width: 100%;
+    top: -180px; */
+}
+p{
+    /* position: absolute; */
+    bottom: 0;
+    width: inherit;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+}
+
+main{
+    width: 80%;
+    margin: 50px auto;
+    position: relative;
+    /* height: 270px; */
+    box-shadow: 0 0 10px white;
+    border-radius: 20px;
+    display: flex;
+
+    /* overflow: hidden; */
+}
+main section.info{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+main > section{
+    flex: 1 0 100%;
+    border: 1px solid;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    padding: 50px 0 0 0;
+}
+main > section::before{
+    content: 'quiz';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: #198754;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    text-transform: capitalize;
+    
+    
+}
+main section.menu::before{
+    background-color: #ffc107;
+    content: 'menu';
+}
+main section.option::before{
+    background-color: #0d6efd;
+    content: 'option';
+}
+main section.over::before{
+    background-color: #dc3545;
+    content: 'game over';
+}
+main > section > div{margin: 0 20px;}
+
+main section.over div{
+    text-align: center;
+}
+.stt{
+    color: rgba(255, 255, 255, 0.733);
+}
+main section.over .score{
+    position: relative;
+    /* border: 1px solid; */
+    margin: 20px;
+}
+main section.over .score div{
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-30%,-50%);
+    font-size: 20px;
+}
+main section.over .score span{
+    font-size: 70px;
+}
+
+section.info .parti1 .temps{
+    padding-left: 10px;
+    color: rgba(255, 255, 255, 0.774);
+}
+section.info .parti2{
+    color: rgba(255, 255, 255, 0.774);
+}
+section.info .parti2 span{
+    display: inline-block;
+    transform: translate(0,5px);
+}
+section.info .parti2 span img{
+    padding-left: 5px;
+}
+main .question{
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
+}
+main .question .nombre{
+    text-transform: lowercase;
+    font-size: 25px;
+    padding-left: 15px;
+}
+
+section.saisir form{
+    position: absolute;
+    transform: translate(-50%);
+    left: 50%;
+    bottom: 40px;
+}
+section.saisir form input{
+    text-align: center;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+    padding: 5px;
+    font-size: 15px;
+    outline: none;
+    color: white;
+}
+section.saisir form .trait{
+    background-color: #fff;
+    width: 100%;
+    height: 1px;
+    transition: all 1s linear;
+}
+section.saisir form button{
+    border: 0;
+    margin-top:10px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 15px;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+section.menu .des,section.option .des{
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+    margin-bottom: 1.5em;
+}
+section.menu .but,section.option .but{
+    display: flex;
+    justify-content: space-between;
+}
+main section.over .but button,
+section.menu button,
+section.option .but button{
+    
+    border: 0;
+    border-radius: 20px;
+    margin-top:10px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 20px;
+    color: white;
+    width: 45%;
+    text-align: center;
+
+}
+
+section.option{
+    position: relative;
+}
+/* main section.menu,main section.quiz{display: none;} */
+section.option .des{
+    margin-bottom: 1em;
+}
+section.option .niveau{
+    border-bottom: 1px solid;
+    padding-bottom: 10px;
+}
+section.option .niveau .lib{
+    width: 100%;
+    background-color: #fff;
+    color: #25262a;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 3px 0;
+    margin-bottom: 5px;
+}
+section.option .niveau select{
+    width: 50%;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-weight: bold;
+    text-transform: capitalize;
+    outline: none;
+}
+section.option .niveau .nosp{
+    padding-left: 10px;
+}
+section.option .but{margin-top: 20px;
+}
