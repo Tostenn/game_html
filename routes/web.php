@@ -14,7 +14,12 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/game', [App\Http\Controllers\GameController::class, 'index'])->name('game');
+Route::prefix('game')->name('game.')->middleware('auth')->controller(App\Http\Controllers\GameController::class)->group(function () {
+    Route::get('/run/{game}', 'index')->name('index');
+    Route::post('/new', 'store')->name('new');
+    Route::post('/join', 'join')->name('join');
+    
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

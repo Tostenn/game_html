@@ -1,8 +1,10 @@
+import GoodAlert from '@/Components/Alert/GoodAlert';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
+import PrimaryButton from '@/Components/PrimaryButton';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
 
 export default function Authenticated({
@@ -13,6 +15,8 @@ export default function Authenticated({
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    const flash = usePage().props.flash;
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -167,11 +171,19 @@ export default function Authenticated({
 
             {header && (
                 <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
+                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8  flex items-center justify-around">
+                        <p>{header}</p>
+                        <div className="">
+
+                        <PrimaryButton onClick={() => router.post(route('game.new'))}>
+                            nouveau game
+                        </PrimaryButton>
+                        </div>
                     </div>
                 </header>
             )}
+
+            <GoodAlert type_alert={"error"} message={flash?.error} />
 
             <main>{children}</main>
         </div>

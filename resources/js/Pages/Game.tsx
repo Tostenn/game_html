@@ -4,10 +4,12 @@ import GamePoint from "@/Components/Game/GamePoint";
 import Point from "@/Components/Game/Point";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Edge } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { Circle, Star } from "lucide-react";
 
-export default function Game() {
+export default function Game({ game, plauyers: players }: any) {
+    const user = usePage().props.auth.user;
+
     const nodes = [
         { id: "0", top: "117.8%", left: "49.76%" },
         { id: "x1", top: "0%", left: "0%" },
@@ -39,19 +41,19 @@ export default function Game() {
         ["z3", "y2"], // diagonales
     ];
     const winningLines: string[][] = [
-    ["x1", "x2", "x3"], // ligne horizontale haut
-    ["y1", "y2", "y3"], // ligne horizontale milieu
-    ["z1", "z2", "z3"], // ligne horizontale bas
-    ["x1", "y1", "z1"], // ligne verticale gauche
-    ["x2", "y2", "z2"], // ligne verticale milieu
-    ["x3", "y3", "z3"], // ligne verticale droite
-    ["x1", "y2", "z3"], // diagonale principale
-    ["x3", "y2", "z1"], // diagonale secondaire
-];
-
-
+        ["x1", "x2", "x3"], // ligne horizontale haut
+        ["y1", "y2", "y3"], // ligne horizontale milieu
+        ["z1", "z2", "z3"], // ligne horizontale bas
+        ["x1", "y1", "z1"], // ligne verticale gauche
+        ["x2", "y2", "z2"], // ligne verticale milieu
+        ["x3", "y3", "z3"], // ligne verticale droite
+        ["x1", "y2", "z3"], // diagonale principale
+        ["x3", "y2", "z1"], // diagonale secondaire
+    ];
+    const player = players.find((player: any) => player.id == user.id);
+    console.log(player);
+    
     const board = new Board(nodes, edges, winningLines);
-    console.log();
 
     return (
         <AuthenticatedLayout
@@ -63,14 +65,30 @@ export default function Game() {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className=" bg-white p-8 space-y-4 ">
-                        <h2 className="text-xl font-semibold leading-tight">
-                            new game
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg p-4">
+                        <h2 className="p-6 font-bold text-2xl text-gray-900 ">
+                            info player
                         </h2>
-                        <div className="h-2"></div>
+                        {players.map((player: any) => (
+                            <div key={player.id}>
+                                <p>player {player.pivot.player_order}</p>
+                                <p>nom {player.name}</p>
+                                <p>color {player.pivot.color}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className=" bg-white p-8 space-y-4 ">
+                        <span className="text-xl font-semibold leading-tight">
+                            id de la partir <span>{game.id}</span>
+                        </span>
+                        <div className="h-2"></div>                        
                         <CarreauChinois
-                            nodes={nodes}
-                            edges={edges}
+                            player={player}
                             board={board}
                         />
                     </div>
@@ -81,17 +99,17 @@ export default function Game() {
 }
 
 function PosZero({}) {
-    return <>
-        <div className="absolute -bottom-40  left-1/2 -translate-x-1/2 h-20 w-20 bg-gray-300 shadow-md rounded-lg m-auto my-8">
-        
-        </div>
-    </>
+    return (
+        <>
+            <div className="absolute -bottom-40  left-1/2 -translate-x-1/2 h-20 w-20 bg-gray-300 shadow-md rounded-lg m-auto my-8"></div>
+        </>
+    );
 }
 
-export function CarreauChinois({ nodes, edges, board }: any) {
-    const pawn1 = new Pawn(board, "0", "blue");
-    const pawn2 = new Pawn(board, "0", "blue");
-    const pawn3 = new Pawn(board, "0", "blue");
+export function CarreauChinois({ player, board }: any) {
+    const pawn1 = new Pawn(board, "0", player.pivot.color);
+    const pawn2 = new Pawn(board, "0", player.pivot.color);
+    const pawn3 = new Pawn(board, "0", player.pivot.color);
 
     board.addPawn("p1", pawn1);
     board.addPawn("p2", pawn2);
@@ -100,8 +118,7 @@ export function CarreauChinois({ nodes, edges, board }: any) {
     return (
         <>
             <div className="relative w-[90%] h-[500px] m-auto border-black">
-                
-            <PosZero />
+                <PosZero />
                 <Point
                     id="p1"
                     board={board}
