@@ -38,8 +38,19 @@ export default function Game() {
         ["z1", "y2"],
         ["z3", "y2"], // diagonales
     ];
+    const winningLines: string[][] = [
+    ["x1", "x2", "x3"], // ligne horizontale haut
+    ["y1", "y2", "y3"], // ligne horizontale milieu
+    ["z1", "z2", "z3"], // ligne horizontale bas
+    ["x1", "y1", "z1"], // ligne verticale gauche
+    ["x2", "y2", "z2"], // ligne verticale milieu
+    ["x3", "y3", "z3"], // ligne verticale droite
+    ["x1", "y2", "z3"], // diagonale principale
+    ["x3", "y2", "z1"], // diagonale secondaire
+];
 
-    const board = new Board(nodes, edges);
+
+    const board = new Board(nodes, edges, winningLines);
     console.log();
 
     return (

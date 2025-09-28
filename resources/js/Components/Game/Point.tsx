@@ -76,6 +76,9 @@ export default function Point({
             setPos({ top: position?.top, left: position?.left });
             // @ts-ignore
             pawn.setPosition(id);
+            const isWinner = board.checkWinnerByColor(pawn.color);
+            console.log('isWinner',isWinner);
+            
         }, 200);
     };
 

@@ -5,11 +5,13 @@ export class Board {
     nodes: Nodes[];
     edges: Edge[];
     pawns: { [id: string]: Pawn };
+    winningLines: string[][];
 
-    constructor(nodes: Nodes[], edges: Edge[]) {
+    constructor(nodes: Nodes[], edges: Edge[], winningLines: string[][]) {
         this.nodes = nodes;
         this.edges = edges;
         this.pawns = {};
+        this.winningLines = winningLines;
     }
 
     /**
@@ -20,7 +22,7 @@ export class Board {
             ([n1, n2]) => (n1 === a && n2 === b) || (n1 === b && n2 === a)
         );
     }
-    
+
     /**
      * Retourne un nœud par son ID
      */
@@ -103,5 +105,24 @@ export class Board {
         });
 
         return closestNode;
+    }
+
+    /**
+     * Vérifie si une couleur a gagné
+     * @returns color du vainqueur ou null
+     */
+    checkWinnerByColor(color: string): boolean {
+        // recuperation des positions des pions
+        const positions = Object.values(this.pawns).map((pawn) => pawn.color === color ? pawn.current : null).filter((pos) => pos !== null) as string[];
+        console.log(positions);
+
+        // verification des lignes
+        for (const line of this.winningLines) {
+            if (line.every((pos) => positions.includes(pos))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
