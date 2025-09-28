@@ -14,6 +14,8 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/game', [App\Http\Controllers\GameController::class, 'index'])->name('game');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
