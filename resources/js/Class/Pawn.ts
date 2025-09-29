@@ -5,11 +5,14 @@ export class Pawn {
   board: Board;
   current: string;
   color: string;
+  canMove: boolean;
 
-  constructor(board: Board, startNodeId: string, color: string) {
+  constructor(board: Board, startNodeId: string, color: string, canMove: boolean = false) {
     this.board = board;
     this.current = startNodeId;
     this.color = color;
+    this.canMove = canMove;
+
   }
 
   moveTo(targetNodeId: string): boolean {

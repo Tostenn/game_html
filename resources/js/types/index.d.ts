@@ -10,6 +10,7 @@ export type PageProps<
 > = T & {
     auth: {
         user: User;
+        token: string;
     };
     flash: {
         success: string;

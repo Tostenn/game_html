@@ -114,7 +114,6 @@ export class Board {
     checkWinnerByColor(color: string): boolean {
         // recuperation des positions des pions
         const positions = Object.values(this.pawns).map((pawn) => pawn.color === color ? pawn.current : null).filter((pos) => pos !== null) as string[];
-        console.log(positions);
 
         // verification des lignes
         for (const line of this.winningLines) {
@@ -124,5 +123,15 @@ export class Board {
         }
 
         return false;
+    }
+    
+     /**
+     * Retourne l'état actuel du plateau (pions, positions et couleurs)
+     */
+    getBoardState() {
+        return Object.entries(this.pawns).map(([id, pawn]) => ({
+            nodeId: pawn.current,
+            color: pawn.color,
+        }));
     }
 }

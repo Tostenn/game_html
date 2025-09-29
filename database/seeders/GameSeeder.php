@@ -29,11 +29,11 @@ class GameSeeder extends Seeder
 
         // 2. Créer quelques parties
         for ($i = 0; $i < 3; $i++) {
-            
+
             // Choisir aléatoirement entre 2 et 4 joueurs pour cette partie
             $players = $users->random(rand(2, 4));
             $playerOrder = 1;
-            
+
             // Créer la partie
             $game = Game::create([
                 'status' => 'in_progress',
@@ -57,7 +57,7 @@ class GameSeeder extends Seeder
             $game->save();
         }
     }
-    
+
     /**
      * Retourne un état de plateau initial simple pour le seeder.
      * Vous devrez adapter cette logique à votre jeu.
@@ -67,13 +67,10 @@ class GameSeeder extends Seeder
         // Ceci est un exemple TRES simplifié.
         // Vous devriez générer ici la position de départ réelle des pions.
         return [
-            'pieces' => [
-                ['id' => 1, 'color' => 'red', 'position' => 'A1'],
-                ['id' => 2, 'color' => 'red', 'position' => 'A2'],
-                // ... autres pions rouges
-                ['id' => 11, 'color' => 'blue', 'position' => 'O15'],
-                ['id' => 12, 'color' => 'blue', 'position' => 'O14'],
-                // ... autres pions bleus
+            [
+                "x" => [],
+                'y' => [],
+                'z' => []
             ]
         ];
     }

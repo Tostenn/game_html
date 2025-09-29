@@ -8,6 +8,7 @@ type Params = {
     color?: string;
     board: Board;
     pawn: Pawn;
+    move: (winner: boolean) => void;
 };
 
 export default function Point({
@@ -15,6 +16,7 @@ export default function Point({
     color = "bg-slate-600",
     board,
     pawn,
+    move,
 }: Params) {
     // console.log(pawn.getPosition());
     const position = pawn.getPosition();
@@ -47,9 +49,9 @@ export default function Point({
     // Quand on relâche le clic
     const handleMouseUp = () => {
         setDragging(false);
-        console.log(pos);
         
-
+        console.log(pawn);
+        
         // @ts-ignore
         let position;
         let id;
@@ -60,7 +62,10 @@ export default function Point({
         );
         
         // @ts-ignore
-        if (!board.isOccupied(closest?.id) && (board.isConnected(pawn.current, closest?.id) || pawn.current == "0")) {
+        if (
+            !board.isOccupied(closest?.id) 
+            && (board.isConnected(pawn.current, closest?.id) || pawn.current == "0") && pawn.canMove
+        ) {
             
             position = board.getNode(closest?.id);
             id = closest?.id;
@@ -78,7 +83,7 @@ export default function Point({
             pawn.setPosition(id);
             const isWinner = board.checkWinnerByColor(pawn.color);
             console.log('isWinner',isWinner);
-            
+            if (closest.id !== pawn.current && pawn.canMove) move(isWinner)
         }, 200);
     };
 

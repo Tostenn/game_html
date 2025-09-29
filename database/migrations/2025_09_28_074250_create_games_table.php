@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->enum('status', ['waiting', 'in_progress', 'finished'])->default('waiting');
-            $table->json('board_state'); // Stocke l'état du plateau
+            $table->json('board_state')->nullable(); // Stocke l'état du plateau
             
             // Note : current_player_id et winner_id seront ajoutés dans une migration séparée
             // pour éviter les problèmes de dépendances circulaires avec la table game_user.

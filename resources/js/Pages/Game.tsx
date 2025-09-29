@@ -2,13 +2,40 @@ import { Board } from "@/Class/Board";
 import { Pawn } from "@/Class/Pawn";
 import GamePoint from "@/Components/Game/GamePoint";
 import Point from "@/Components/Game/Point";
+import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Edge } from "@/types";
-import { Head, usePage } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
+import axios from "axios";
 import { Circle, Star } from "lucide-react";
+import { useState } from "react";
 
-export default function Game({ game, plauyers: players }: any) {
+export default function Game({ game, players }: any) {
     const user = usePage().props.auth.user;
+    const token = usePage().props.auth.token;
+    const [stateBoard, setStateBoard] = useState(game);
+    const [loadgame, setLoadgame] = useState(false);
+    console.log(game);
+    
+
+    const refresh = async () => {
+        setLoadgame(true);
+        await axios
+            .get(route("game.show", { id: game.id }), {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                setStateBoard(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoadgame(false);
+            });
+    };
 
     const nodes = [
         { id: "0", top: "117.8%", left: "49.76%" },
@@ -51,8 +78,8 @@ export default function Game({ game, plauyers: players }: any) {
         ["x3", "y2", "z1"], // diagonale secondaire
     ];
     const player = players.find((player: any) => player.id == user.id);
-    console.log(player);
-    
+    player.canMove = stateBoard.current_player_id == user.id;
+
     const board = new Board(nodes, edges, winningLines);
 
     return (
@@ -69,6 +96,12 @@ export default function Game({ game, plauyers: players }: any) {
                         <h2 className="p-6 font-bold text-2xl text-gray-900 ">
                             info player
                         </h2>
+                        <PrimaryButton
+                            onClick={() => router.reload()}
+                            disabled={loadgame}
+                        >
+                            refresh
+                        </PrimaryButton>
                         {players.map((player: any) => (
                             <div key={player.id}>
                                 <p>player {player.pivot.player_order}</p>
@@ -84,12 +117,41 @@ export default function Game({ game, plauyers: players }: any) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className=" bg-white p-8 space-y-4 ">
                         <span className="text-xl font-semibold leading-tight">
-                            id de la partir <span>{game.id}</span>
+                            id de la partir <span>{stateBoard.id}</span>{" "}
+                            <span
+                                className={`${
+                                    stateBoard.status == "in_progress"
+                                        ? "text-green-600"
+                                        : "text-red-600"
+                                }`}
+                            >
+                                {" "}
+                                {stateBoard.status}
+                            </span>{" "}
+                            <span
+                                className={`${
+                                    stateBoard.current_player_id == user.id
+                                        ? "text-green-600"
+                                        : "text-red-600"
+                                }`}
+                            >
+                                {stateBoard.current_player_id == user.id
+                                    ? "your turn"
+                                    : "not your turn"}
+                            </span>
                         </span>
-                        <div className="h-2"></div>                        
+                        <PrimaryButton onClick={refresh} disabled={loadgame}>
+                            refresh
+                        </PrimaryButton>
+                        <div className="h-2"></div>
                         <CarreauChinois
                             player={player}
                             board={board}
+                            stateBoard={stateBoard}
+                            setStateBoard={setStateBoard}
+                            loadgame={loadgame}
+                            setLoadgame={setLoadgame}
+                            token={token}
                         />
                     </div>
                 </div>
@@ -106,37 +168,78 @@ function PosZero({}) {
     );
 }
 
-export function CarreauChinois({ player, board }: any) {
-    const pawn1 = new Pawn(board, "0", player.pivot.color);
-    const pawn2 = new Pawn(board, "0", player.pivot.color);
-    const pawn3 = new Pawn(board, "0", player.pivot.color);
+export function CarreauChinois({
+    player,
+    board,
+    stateBoard,
+    setStateBoard,
+    loadgame,
+    setLoadgame,
+    token,
+}: any) {
+    const paws = stateBoard.board_state.game.map((pawn: any) => {
+        if (player.pivot.color == pawn.color) {
+            return new Pawn(board, pawn.nodeId, pawn.color, setLoadgame.status == "finished" ? false : player.canMove);
+        } else {
+            // if (pawn.nodeId !== "0") {
+                return new Pawn(board, pawn.nodeId, pawn.color, false);
+            // }
+        }
+    });
+    
 
-    board.addPawn("p1", pawn1);
-    board.addPawn("p2", pawn2);
-    board.addPawn("p3", pawn3);
+    const move = async (winner: boolean) => {
+        setLoadgame(true);
+
+        paws.forEach((pawn: any) => {
+            if (pawn) pawn.canMove = false;
+        });
+        const boards = board.getBoardState();
+        console.log(boards);
+        
+        await axios
+            .post(
+                route("game.move", { id: stateBoard.id }),
+                { board_state: boards, winner_id: winner ? player.id : null },
+                {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    },
+                }
+            )
+            .then((response) => {
+                setStateBoard(response.data);
+                console.log(response.data);
+
+                setLoadgame(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoadgame(false);
+            });
+    };
 
     return (
         <>
             <div className="relative w-[90%] h-[500px] m-auto border-black">
                 <PosZero />
-                <Point
-                    id="p1"
-                    board={board}
-                    pawn={pawn1}
-                    color={`bg-${pawn1.color}-600`}
-                />
-                <Point
-                    id="p2"
-                    board={board}
-                    pawn={pawn2}
-                    color={`bg-${pawn2.color}-600`}
-                />
-                <Point
-                    id="p3"
-                    board={board}
-                    pawn={pawn3}
-                    color={`bg-${pawn3.color}-600`}
-                />
+                {paws.map((pawn: any, index: number) => {
+                    pawn && board.addPawn("panw" + index, pawn);
+                    return (
+                        !(pawn.current == "0" && pawn.color != player.pivot.color) && (
+                            <Point
+                                key={index}
+                                id={"panw" + index}
+                                board={board}
+                                pawn={pawn}
+                                color={`bg-${pawn.color}-600`}
+                                move={move}
+                            />
+                        )
+                    );
+                })}
                 {/* --- SVG pour les lignes --- */}
                 <svg className="absolute inset-0 w-full h-full">
                     {/* Ligne horizontale X */}
