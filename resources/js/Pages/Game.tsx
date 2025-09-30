@@ -15,10 +15,9 @@ export default function Game({ game, players }: any) {
     const token = usePage().props.auth.token;
     const [stateBoard, setStateBoard] = useState(game);
     const [loadgame, setLoadgame] = useState(false);
-    console.log(game);
-    
 
     const refresh = async () => {
+        console.clear();
         setLoadgame(true);
         await axios
             .get(route("game.show", { id: game.id }), {
@@ -82,6 +81,8 @@ export default function Game({ game, players }: any) {
 
     const board = new Board(nodes, edges, winningLines);
 
+    const winner = stateBoard.winner_id ? players.find((player: any) => player.id == stateBoard.winner_id) : false;
+
     return (
         <AuthenticatedLayout
             header={
@@ -102,6 +103,7 @@ export default function Game({ game, players }: any) {
                         >
                             refresh
                         </PrimaryButton>
+                        {winner && <p>player {winner.name} win</p>}
                         {players.map((player: any) => (
                             <div key={player.id}>
                                 <p>player {player.pivot.player_order}</p>
@@ -179,13 +181,16 @@ export function CarreauChinois({
 }: any) {
     const paws = stateBoard.board_state.game.map((pawn: any) => {
         if (player.pivot.color == pawn.color) {
-            return new Pawn(board, pawn.nodeId, pawn.color, setLoadgame.status == "finished" ? false : player.canMove);
+            return new Pawn(board, pawn.nodeId, pawn.color, stateBoard.status == "finished" ? false : player.canMove);
         } else {
             // if (pawn.nodeId !== "0") {
                 return new Pawn(board, pawn.nodeId, pawn.color, false);
             // }
         }
     });
+
+    console.log(paws);
+    
     
 
     const move = async (winner: boolean) => {

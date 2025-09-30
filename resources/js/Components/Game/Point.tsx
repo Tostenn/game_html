@@ -21,7 +21,6 @@ export default function Point({
     // console.log(pawn.getPosition());
     const position = pawn.getPosition();
 
- 
     const [pos, setPos] = useState({
         id: position?.id,
         top: position?.top,
@@ -49,9 +48,9 @@ export default function Point({
     // Quand on relâche le clic
     const handleMouseUp = () => {
         setDragging(false);
+        console.log(board);
         
-        console.log(pawn);
-        
+
         // @ts-ignore
         let position;
         let id;
@@ -60,13 +59,14 @@ export default function Point({
             parseFloat(pos.top),
             parseFloat(pos.left)
         );
-        
+
         // @ts-ignore
         if (
-            !board.isOccupied(closest?.id) 
-            && (board.isConnected(pawn.current, closest?.id) || pawn.current == "0") && pawn.canMove
+            !board.isOccupied(closest?.id) &&
+            (board.isConnected(pawn.current, closest?.id) ||
+                pawn.current == "0") &&
+            pawn.canMove && closest?.id !== "0" && (board.canMoveNonZeroPawn(pawn.color) || pawn.current == "0")
         ) {
-            
             position = board.getNode(closest?.id);
             id = closest?.id;
         }
@@ -74,16 +74,18 @@ export default function Point({
         else {
             position = pawn.getPosition();
             id = pawn.current;
-            
         }
 
         setTimeout(() => {
             setPos({ top: position?.top, left: position?.left });
             // @ts-ignore
-            pawn.setPosition(id);
-            const isWinner = board.checkWinnerByColor(pawn.color);
-            console.log('isWinner',isWinner);
-            if (closest.id !== pawn.current && pawn.canMove) move(isWinner)
+            
+            if (id !== pawn.current && pawn.canMove) {
+                pawn.setPosition(id);
+                const isWinner = board.checkWinnerByColor(pawn.color);
+                console.log(`la couleur est ${pawn.color} et le winner est ${isWinner}`);
+                move(isWinner);
+            }
         }, 200);
     };
 

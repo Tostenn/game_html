@@ -113,7 +113,9 @@ export class Board {
      */
     checkWinnerByColor(color: string): boolean {
         // recuperation des positions des pions
-        const positions = Object.values(this.pawns).map((pawn) => pawn.color === color ? pawn.current : null).filter((pos) => pos !== null) as string[];
+        const positions = Object.values(this.pawns)
+            .map((pawn) => (pawn.color === color ? pawn.current : null))
+            .filter((pos) => pos !== null) as string[];
 
         // verification des lignes
         for (const line of this.winningLines) {
@@ -124,8 +126,8 @@ export class Board {
 
         return false;
     }
-    
-     /**
+
+    /**
      * Retourne l'état actuel du plateau (pions, positions et couleurs)
      */
     getBoardState() {
@@ -133,5 +135,19 @@ export class Board {
             nodeId: pawn.current,
             color: pawn.color,
         }));
+    }
+
+    /**
+     * Vérifie si un joueur peut bouger une pièce qui n'est pas sur "0"
+     */
+    canMoveNonZeroPawn(color: string): boolean {
+        const pawnsOfColor = Object.values(this.pawns).filter(
+            (pawn) => pawn.color === color
+        );
+
+        // S'il reste AU MOINS une pièce sur "0", on interdit de bouger les autres
+        const stillOnZero = pawnsOfColor.some((pawn) => pawn.current === "0");
+
+        return !stillOnZero;
     }
 }

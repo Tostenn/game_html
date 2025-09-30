@@ -20,7 +20,6 @@ export default function Dashboard() {
     } = useForm({
         game_id: '',
     });
-    console.log(usePage().props.flash);
     
     return (
         <AuthenticatedLayout
@@ -56,14 +55,14 @@ export default function Dashboard() {
                                 <TextInput
                                     id="name"
                                     name="game_id"
-                                    type="text"
+                                    type="number"
                                     className="mt-1 block"
                                     autoComplete="name"
                                     value={data.game_id}
                                     onChange={(e) => setData('game_id', e.target.value)}
                                 />
                                 <InputError message={errors.game_id} className="mt-2" />
-                                <PrimaryButton type='submit'>
+                                <PrimaryButton type='submit' disabled={processing}>
                                     rejoindre la partie
                                 </PrimaryButton>
                             </div>
